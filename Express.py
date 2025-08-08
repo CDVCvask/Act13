@@ -16,15 +16,49 @@ class Pack_Buissnes:
             print(f"Repartidor {cont}")
             print(messenger.__str__())
             cont = cont + 1
-    def Q_S(self):
-        if len(self.mess) <= 1:
+    def Q_S(self,messenger_list=None):
+        if messenger_list == None:
             return self.mess
+        if len(messenger_list) <= 1:
+            return messenger_list
         else:
-            Check = self.mess[0]
-            low = [x for x in self.mess[1:] if x.pack < Check.pack]
-            same = [x for x in self.mess[1:] if x.pack == Check.pack]
-            upp = [x for x in self.mess[1:] if x.pack > Check.pack]
-            return Q_S(low) + Q_S
+            Check = messenger_list[0]
+            low = [x for x in messenger_list[1:] if x.pack < Check.pack]
+            same = [x for x in messenger_list[1:] if x.pack == Check.pack]
+            upp = [x for x in messenger_list[1:] if x.pack > Check.pack]
+            return self.Q_S(upp) + [Check] + same + self.Q_S(low)
+    def Stats(self):
+        tot = 0
+        for messenger in self.mess:
+            tot = tot + messenger.pack
+        print(f"El total de paquetes entregados fue: {tot}")
+        average = tot / len(self.mess)
+        print(" ")
+        print(f"El promedio de paquetes por repartidor fue {average}")
+        print(" ")
+        High = 0
+        cont = 0
+        i = 0
+        for messenger in self.mess:
+            if messenger.pack > High:
+                High = messenger.pack
+                i = cont
+            cont = cont + 1
+        print(f"El repartidor con más entregas fue {self.mess[i].name} con {High} entregas")
+        Low = 0
+        cont = 0
+        i = 0
+        for messenger in self.mess:
+            low = messenger.pack
+            break
+        for messenger in self.mess:
+            if messenger.pack < Low:
+                Low = messenger.pack
+                i = cont
+            cont = cont + 1
+        print(" ")
+        print(f"El repartidor con menos entregas fue {self.mess[i].name}")
+        print("")
 def Menu():
     print("Paquetería BingBong")
     print("1.Ingresar repartidores: ")
@@ -67,10 +101,14 @@ while allow == False:
             else:
                 Buissnes.Show()
         case 3:
+            cont = 1
             if allow1 == False:
                 print("Aún no hay datos en el sistema")
             else:
-                print(" ")
+                sorted = Buissnes.Q_S()
+                for messenger in sorted:
+                    print(f"Repartidor {cont}")
+                    print(messenger.__str__())
         case 4:
             if allow1 == False:
                 print("Aún no hay datos en el sistema")
@@ -80,7 +118,7 @@ while allow == False:
             if allow1 == False:
                 print("Aún no hay datos en el sistema")
             else:
-                print(" ")
+                Buissnes.Stats()
         case 6:
             print("Gracias por utilizar el programa")
             break
