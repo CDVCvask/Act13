@@ -11,8 +11,20 @@ class Pack_Buissnes:
     def add_mess(self,messenger):
         self.mess.append(messenger)
     def Show(self):
+        cont = 1
         for messenger in self.mess:
+            print(f"Repartidor {cont}")
             print(messenger.__str__())
+            cont = cont + 1
+    def Q_S(self):
+        if len(self.mess) <= 1:
+            return self.mess
+        else:
+            Check = self.mess[0]
+            low = [x for x in self.mess[1:] if x.pack < Check.pack]
+            same = [x for x in self.mess[1:] if x.pack == Check.pack]
+            upp = [x for x in self.mess[1:] if x.pack > Check.pack]
+            return Q_S(low) + Q_S
 def Menu():
     print("Paquetería BingBong")
     print("1.Ingresar repartidores: ")
