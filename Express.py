@@ -27,6 +27,18 @@ class Pack_Buissnes:
             same = [x for x in messenger_list[1:] if x.pack == Check.pack]
             upp = [x for x in messenger_list[1:] if x.pack > Check.pack]
             return self.Q_S(upp) + [Check] + same + self.Q_S(low)
+    def Find(self,look):
+        find = 0
+        cont = 0
+        check = 0
+        for messenger in self.mess:
+            if messenger.name == look:
+                check = 1
+                print(f"El repartidor {look} existe ")
+                print(messenger.__str__())
+            cont = cont + 1
+        if check == 0:
+            print(f"El repartidor {look} no existe ")
     def Stats(self):
         tot = 0
         for messenger in self.mess:
@@ -45,7 +57,7 @@ class Pack_Buissnes:
                 i = cont
             cont = cont + 1
         print(f"El repartidor con más entregas fue {self.mess[i].name} con {High} entregas")
-        Low = 0
+        Low = self.mess[0].pack
         cont = 0
         i = 0
         for messenger in self.mess:
@@ -113,7 +125,8 @@ while allow == False:
             if allow1 == False:
                 print("Aún no hay datos en el sistema")
             else:
-                print(" ")
+                look = input("Ingrese el nombre de el repartidor que busca: ")
+                Buissnes.Find(look)
         case 5:
             if allow1 == False:
                 print("Aún no hay datos en el sistema")
